@@ -91,9 +91,9 @@ export const ReactTransliterate = ({
     }, 1);
 
     // bubble up event to the parent component
-    const e = ({ target: { value: newValue } } as unknown) as React.FormEvent<
-      HTMLInputElement
-    >;
+    const e = {
+      target: { value: newValue },
+    } as unknown as React.FormEvent<HTMLInputElement>;
     onChangeText(newValue);
     onChange(e);
     reset();
