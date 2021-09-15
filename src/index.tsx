@@ -264,6 +264,7 @@ export const ReactTransliterate = ({
         onBlur: handleBlur,
         ref: inputRef,
         value: value,
+        "data-testid": "rt-input-component",
         ...rest,
       })}
       {shouldRenderSuggestions && options.length > 0 && (
@@ -275,6 +276,7 @@ export const ReactTransliterate = ({
             width: "auto",
           }}
           className={classes.ReactTransliterate}
+          data-testid="rt-suggestions-list"
         >
           {options.map((item, index) => (
             <li
