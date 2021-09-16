@@ -1,7 +1,19 @@
 import * as React from "react";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { getTransliterateSuggestions, ReactTransliterate } from "./index";
+import { rest } from "msw";
+import { setupServer } from "msw/node";
+import { ReactTransliterate } from "./index";
+
+const server = setupServer(
+  rest.get("https://inputtools.google.com/request", (_, res, ctx) => {
+    return res(ctx.json(["SUCCESS", [["there", ["hi", "hey", "hello"]]]]));
+  }),
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 describe("ReactTransliterate", () => {
   it("is truthy", () => {
@@ -26,7 +38,7 @@ describe("ReactTransliterate", () => {
     expect(screen.getByDisplayValue(mockData)).toBeInTheDocument();
   });
 
-  it("calls onChangeText on user input", () => {
+  it("calls onChangeText on user input", async () => {
     const mockData = "MOCK_VALUE";
     const mockValue = mockData;
     const mockOnChangeText = jest.fn();
@@ -36,7 +48,10 @@ describe("ReactTransliterate", () => {
     fireEvent.change(screen.getByTestId("rt-input-component"), {
       target: { value: "H" },
     });
-    expect(mockOnChangeText).toBeCalled();
+    await waitFor(() => {
+      expect(screen.getByTestId("rt-suggestions-list")).toBeInTheDocument();
+      expect(mockOnChangeText).toBeCalled();
+    });
   });
 
   it("renders suggestions list", async () => {
@@ -51,11 +66,7 @@ describe("ReactTransliterate", () => {
       target: { value: "there" },
     });
     await waitFor(() => {
-      expect(screen.getByTestId("rt-suggestions-list")).toBeInTheDocument();
+      expect(screen.getByText("hi")).toBeInTheDocument();
     });
   });
-});
-
-it("returns translate suggestion", () => {
-  expect(getTransliterateSuggestions("hello")).resolves.toContain("hello");
 });
