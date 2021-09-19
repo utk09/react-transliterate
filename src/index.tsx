@@ -215,8 +215,8 @@ export const ReactTransliterate = ({
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (!isTouchEnabled()) {
-      if (insertCurrentSelectionOnBlur && options[0]) {
-        handleSelection(0);
+      if (insertCurrentSelectionOnBlur && options[selection]) {
+        handleSelection(selection);
       } else {
         reset();
       }
