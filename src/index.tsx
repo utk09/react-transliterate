@@ -20,15 +20,11 @@ export const ReactTransliterate = ({
   lang = "hi",
   offsetX = 0,
   offsetY = 10,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChangeText = () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onBlur = () => {},
+  onChange,
+  onChangeText,
+  onBlur,
   value,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onKeyDown = () => {},
+  onKeyDown,
   containerClassName = "",
   containerStyles = {},
   activeItemStyles = {},
@@ -73,7 +69,6 @@ export const ReactTransliterate = ({
     const currentString = value;
     // create a new string with the currently typed word
     // replaced with the word in transliterated language
-    if (typeof currentString !== "string") return;
     const newValue =
       currentString.substring(0, matchStart) +
       options[index] +
@@ -95,7 +90,7 @@ export const ReactTransliterate = ({
       target: { value: newValue },
     } as unknown as React.FormEvent<HTMLInputElement>;
     onChangeText(newValue);
-    onChange(e);
+    onChange && onChange(e);
     reset();
     return inputRef.current?.focus();
   };
@@ -123,7 +118,7 @@ export const ReactTransliterate = ({
     const value = e.currentTarget.value;
 
     // bubble up event to the parent component
-    onChange(e);
+    onChange && onChange(e);
     onChangeText(value);
 
     if (!shouldRenderSuggestions) {
@@ -202,12 +197,12 @@ export const ReactTransliterate = ({
             setSelection((selection + 1) % options.length);
             break;
           default:
-            onKeyDown(event);
+            onKeyDown && onKeyDown(event);
             break;
         }
       }
     } else {
-      onKeyDown(event);
+      onKeyDown && onKeyDown(event);
     }
   };
 
@@ -221,7 +216,7 @@ export const ReactTransliterate = ({
         reset();
       }
     }
-    onBlur(event);
+    onBlur && onBlur(event);
   };
 
   const handleResize = () => {
