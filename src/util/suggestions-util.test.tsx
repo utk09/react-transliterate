@@ -5,9 +5,17 @@ test("returns initial word", () => {
 });
 
 test("returns numOptions suggestions", () => {
-  expect(getTransliterateSuggestions("hello", 3)).resolves.toHaveLength(3);
+  expect(
+    getTransliterateSuggestions("hello", {
+      numOptions: 3,
+    }),
+  ).resolves.toHaveLength(3);
 });
 
 test("returns empty array for punctuation", () => {
-  expect(getTransliterateSuggestions("#", 3)).resolves.toHaveLength(0);
+  expect(
+    getTransliterateSuggestions("#", {
+      numOptions: 3,
+    }),
+  ).resolves.toHaveLength(0);
 });
