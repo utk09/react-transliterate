@@ -268,7 +268,11 @@ export const ReactTransliterate = ({
           className={classes.ReactTransliterate}
           data-testid="rt-suggestions-list"
         >
-          {options.map((item, index) => (
+          {/*
+           * convert to set and back to prevent duplicate list items
+           * that might happen while using backspace
+           */}
+          {Array.from(new Set(options)).map((item, index) => (
             <li
               className={index === selection ? classes.Active : undefined}
               style={index === selection ? activeItemStyles || {} : {}}
