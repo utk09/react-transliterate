@@ -8,9 +8,9 @@ import { Language } from "./types/Language";
 import { TriggerKeys } from "./constants/TriggerKeys";
 import { getTransliterateSuggestions } from "./util/suggestions-util";
 
-const KEY_UP = 38;
-const KEY_DOWN = 40;
-const KEY_ESCAPE = 27;
+const KEY_UP = "ArrowUp";
+const KEY_DOWN = "ArrowDown";
+const KEY_ESCAPE = "Escape";
 
 const OPTION_LIST_Y_OFFSET = 10;
 const OPTION_LIST_MIN_WIDTH = 100;
@@ -179,11 +179,11 @@ export const ReactTransliterate = ({
     const helperVisible = options.length > 0;
 
     if (helperVisible) {
-      if (triggerKeys.includes(event.keyCode)) {
+      if (triggerKeys.includes(event.key)) {
         event.preventDefault();
         handleSelection(selection);
       } else {
-        switch (event.keyCode) {
+        switch (event.key) {
           case KEY_ESCAPE:
             event.preventDefault();
             reset();
