@@ -73,7 +73,7 @@ export interface ReactTransliterateProps
   /**
    * Keys which when pressed, input the current selection to the textbox
    */
-  triggerKeys?: number[];
+  triggerKeys?: string[];
 
   /**
    * Should the current selection be inserted when `blur` event occurs
